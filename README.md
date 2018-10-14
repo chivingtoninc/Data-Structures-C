@@ -19,6 +19,7 @@ Various data structures, implemented in C.
 ## Prerequisites
   * Some C compiler.
 
+
 ## Installation
 ```
   cd /path/to/where/you/want/it
