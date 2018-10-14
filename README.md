@@ -18,8 +18,7 @@ Various data structures, implemented in C.
 
 ## Prerequisites
   * Some C compiler.
-<br/><br/>
-
+<br/>
 
 ## Installation
 ```
@@ -34,7 +33,6 @@ Navigate to an example in the Data-Structures-C directory and compile/run.
   gcc someExample.c -o someExample
   ./someExample
 ```
-
 
 ## Usage
 Only real use is for learning about data structures. You can copy them into a bigger project, but these should not be considered production-ready in any way. Simply follow the steps in **Testing** to use.
