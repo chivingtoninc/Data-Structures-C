@@ -18,7 +18,6 @@ Various data structures, implemented in C.
 
 ## Prerequisites
   * Some C compiler.
-<br/>
 
 ## Installation
 ```
