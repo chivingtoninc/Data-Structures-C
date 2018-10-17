@@ -31,7 +31,7 @@ void display(Node* head) {
   Node* current = head;
 
   while (current != NULL) {
-    printf("%d\n", current->val);
+    printf("%d\n", current->price);
     current = current->next;
   }
 }
@@ -93,22 +93,7 @@ double removeLast(Node* head) {
 /* ---------------------------------- Main Program --------------------------------- */
 int main(int argc, const char* argv[]) {
 
-  Node* head = NULL;
-  head = malloc(sizeof(Node));
-  if (head == NULL) {
-      return 1;
-  }
-
-  head->val = 1;
-  head->next = NULL;
-
-  Node* head = NULL;
-  head = malloc(sizeof(Node));
-  head->val = 1;
-  head->next = malloc(sizeof(Node));
-  head->next->val = 2;
-  head->next->next = NULL;
-
+  //
 
   return 0;
 }
