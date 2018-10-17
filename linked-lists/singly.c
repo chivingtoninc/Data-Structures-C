@@ -9,18 +9,19 @@
 # -----                 GitHub|Twitter|Facebook|LinkedIn -> @chivingtoninc      ----- #
 # -----   License: DO_WHATEVER_YOU_WANT - use/modify/redistribute as you like   ----- #
 # *********************************************************************************** #
-# ---------- Associative Array (hash table/dictionary) implementation in C. --------- #
-# ------------------------- Uses the "djb2" hash function. -------------------------- #
+# --------------------- Singly-linked list implementation in C. --------------------- #
 # ********************************************************************************** */
 
 /* ------------------------------------ Imports ------------------------------------ */
 // --- import libs
 #include <stdio.h>
 
-// --- import headers
+// --- import modules
 // modules here
 
 
+/* ------------------------------------ Imports ------------------------------------ */
+/* ------------------------------------ Imports ------------------------------------ */
 // List Node
 typedef struct Node {
     int val;
