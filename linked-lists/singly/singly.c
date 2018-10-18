@@ -15,24 +15,29 @@
 /* ------------------------------------ Imports ------------------------------------ */
 // import libs
 #include <stdio.h>
+#include <stdlib.h>
 
 
 /* ----------------------------------- Structures ---------------------------------- */
-// List Node
+// Define Node structure for list items
 typedef struct Node {
-    double price;
-    struct Node* next;
+  struct Node* next;                    // Each node has a pointer to next node in list
+  double price;                         // Each node stores price of grocery item
+  char name[8];                         // Each node stores name of grocery item
 } Node;
 
 
 /* ----------------------------------- Functions ----------------------------------- */
 // Print out list
 void display(Node* head) {
-  Node* current = head;
+  Node* current = head;                 // Get the head node
 
-  while (current != NULL) {
-    printf("%d\n", current->price);
-    current = current->next;
+  printf("\n Grocery List\n ------------\n");
+  while (current != NULL) {             // Move through the list
+    char* n = current->name;            // Get item name
+    double p = current->price;          // Get item price
+    printf("  - %s: %.2f\n", n, p);     // Print each price
+    current = current->next;            // Update current node of list
   }
 }
 
@@ -72,7 +77,7 @@ double removeFirst(Node** head) {\
 
 // Remove an item from the end of the list.
 double removeLast(Node* head) {
-  if (*head == NULL) return -1;         // Return if list is empty
+  if (head == NULL) return -1;         // Return if list is empty
 
   Node* previous = NULL;                // Placeholder for next to last node
   Node* current = head;                 // Get head node
@@ -92,8 +97,16 @@ double removeLast(Node* head) {
 
 /* ---------------------------------- Main Program --------------------------------- */
 int main(int argc, const char* argv[]) {
+  double price = 1.99;
+  char name = "Soup";
 
-  //
+  Node* head = malloc(sizeof(Node));  // Set head node
+  head->name = name;                // Set head node name
+  head->price = price;                 // Set head node price
+  head->next = NULL;                  // Set an initial node
+
+  display(head);
+  // printf("\n Head Node: %s = %.2f\n", head->name, head->price);
 
   return 0;
 }
