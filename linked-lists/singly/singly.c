@@ -16,6 +16,14 @@
 // import libs
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
+
+
+/* -------------------------------- Helper Functions ------------------------------- */
+void help(void) {
+  fprintf(stdout, "\n");
+  exit(0);
+}
 
 
 /* ----------------------------------- Structures ---------------------------------- */
@@ -27,7 +35,7 @@ typedef struct Node {
 } Node;
 
 
-/* ----------------------------------- Functions ----------------------------------- */
+/* -------------------------------- List Functions --------------------------------- */
 // Print out list
 void display(Node* head) {
   Node* current = head;                 // Get the head node
@@ -97,16 +105,27 @@ double removeLast(Node* head) {
 
 /* ---------------------------------- Main Program --------------------------------- */
 int main(int argc, const char* argv[]) {
-  double price = 1.99;
-  char name = "Soup";
+  // Check for "--help" flag & greet user
+  if (argv[1] == "--help") help();
+  fprintf(stdout, "\n Welcome to the Singly-Linked Grocery List app.\n");
+  fprintf(stdout, "\n Type \"help\" or run with option \"--help\" for options.\n");
 
-  Node* head = malloc(sizeof(Node));  // Set head node
-  head->name = name;                // Set head node name
-  head->price = price;                 // Set head node price
-  head->next = NULL;                  // Set an initial node
+  // Set initial head node
+  Node* head = malloc(sizeof(Node));
 
+  // Prompt user
+  fprintf(stdout, "\n\n Enter items you'd like to add to the list.\n Type \"display\" to show list. Type \"exit\" when done. \n");
+
+  // Placeholders for item names & prices
+  double price = 0.0;
+  char name[8];
+
+  // Get list items from user
+  fprintf(stdout, "\n Item name: "); scanf("%s", (char)name);
+  fprintf(stdout, "\n Item price: %d\n"); scanf("%d", &price);
+
+  // Display list for testing
   display(head);
-  // printf("\n Head Node: %s = %.2f\n", head->name, head->price);
 
   return 0;
 }
