@@ -21,7 +21,13 @@
 
 /* -------------------------------- Helper Functions ------------------------------- */
 void help(void) {
-  fprintf(stdout, "\n");
+  fprintf(stdout, "\n Options:\n");
+  fprintf(stdout, "\n  - append: append item to end of list.");
+  fprintf(stdout, "\n  - prepend: prepend item to beginning of list.");
+  fprintf(stdout, "\n  - insert: insert item at specific location.");
+  fprintf(stdout, "\n  - remove: remove item from specific location.");
+  fprintf(stdout, "\n  - removeFirst: remove first item from list.");
+  fprintf(stdout, "\n  - removeLast: remove last item from list.");
   exit(0);
 }
 
@@ -71,7 +77,19 @@ void append(Node* head, double price) {
   current->next->next = NULL;           // Set new node's next NULL to indicate last node
 }
 
-// Remove an item from the beginning of the list.
+// Insert item at specific location
+void insert(Node* head, double price) {
+  Node* current = head;                 // Get the head node
+
+  while (current->next != NULL)         // Go to end of list
+    current = current->next;            // Set current node to last node
+
+  current->next = malloc(sizeof(Node)); // Allocate new node & point last node's next to it
+  current->next->price = price;         // Set new node's price
+  current->next->next = NULL;           // Set new node's next NULL to indicate last node
+}
+
+// Remove item from the beginning of the list.
 double removeFirst(Node** head) {\
   if (*head == NULL) return -1;         // Return if list is empty
 
@@ -83,8 +101,28 @@ double removeFirst(Node** head) {\
   return headPrice;                     // Return old head node's price
 }
 
-// Remove an item from the end of the list.
+// Remove item from the end of the list.
 double removeLast(Node* head) {
+  if (head == NULL) return -1;         // Return if list is empty
+
+  Node* previous = NULL;                // Placeholder for next to last node
+  Node* current = head;                 // Get head node
+
+  while (current->next != NULL) {       // Go to end of list
+    previous = current;                 // Update previous to current
+    current = current->next;            // Update current to next
+  }
+
+  double lastPrice = current->price;    // Get lst node's price
+  free(current);                        // Delete last node
+  previous->next = NULL;                // Set 2nd to last node's next NULL to indicate last node
+
+  return lastPrice;                     // Return last node's price
+
+}
+
+// Remove item from specific location
+double remove(Node* head) {
   if (head == NULL) return -1;         // Return if list is empty
 
   Node* previous = NULL;                // Placeholder for next to last node
@@ -106,7 +144,7 @@ double removeLast(Node* head) {
 /* ---------------------------------- Main Program --------------------------------- */
 int main(int argc, const char* argv[]) {
   // Check for "--help" flag & greet user
-  if (argv[1] == "--help") help();
+  if (argv[2] == "--help") help();
   fprintf(stdout, "\n Welcome to the Singly-Linked Grocery List app.\n");
   fprintf(stdout, "\n Type \"help\" or run with option \"--help\" for options.\n");
 
@@ -121,7 +159,7 @@ int main(int argc, const char* argv[]) {
   char name[8];
 
   // Get list items from user
-  fprintf(stdout, "\n Item name: "); scanf("%s", (char)name);
+  fprintf(stdout, "\n Item name: "); scanf("%s", name);
   fprintf(stdout, "\n Item price: %d\n"); scanf("%d", &price);
 
   // Display list for testing
