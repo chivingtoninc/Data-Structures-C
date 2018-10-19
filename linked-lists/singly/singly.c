@@ -143,27 +143,30 @@ double remove(Node* head) {
 
 /* ---------------------------------- Main Program --------------------------------- */
 int main(int argc, const char* argv[]) {
-  // Check for "--help" flag & greet user
-  if (argv[2] == "--help") help();
-  fprintf(stdout, "\n Welcome to the Singly-Linked Grocery List app.\n");
-  fprintf(stdout, "\n Type \"help\" or run with option \"--help\" for options.\n");
-
-  // Set initial head node
-  Node* head = malloc(sizeof(Node));
-
-  // Prompt user
-  fprintf(stdout, "\n\n Enter items you'd like to add to the list.\n Type \"display\" to show list. Type \"exit\" when done. \n");
-
-  // Placeholders for item names & prices
-  double price = 0.0;
-  char name[8];
-
-  // Get list items from user
-  fprintf(stdout, "\n Item name: "); scanf("%s", name);
-  fprintf(stdout, "\n Item price: %d\n"); scanf("%d", &price);
-
-  // Display list for testing
-  display(head);
+  // Check help
+  help();
+  
+  // // Check for "--help" flag & greet user
+  // if (argv[2] == "--help") help();
+  // fprintf(stdout, "\n Welcome to the Singly-Linked Grocery List app.\n");
+  // fprintf(stdout, "\n Type \"help\" or run with option \"--help\" for options.\n");
+  //
+  // // Set initial head node
+  // Node* head = malloc(sizeof(Node));
+  //
+  // // Prompt user
+  // fprintf(stdout, "\n\n Enter items you'd like to add to the list.\n Type \"display\" to show list. Type \"exit\" when done. \n");
+  //
+  // // Placeholders for item names & prices
+  // double price = 0.0;
+  // char name[8];
+  //
+  // // Get list items from user
+  // fprintf(stdout, "\n Item name: "); scanf("%s", name);
+  // fprintf(stdout, "\n Item price: %d\n"); scanf("%d", &price);
+  //
+  // // Display list for testing
+  // display(head);
 
   return 0;
 }
