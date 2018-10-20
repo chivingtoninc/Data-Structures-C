@@ -20,6 +20,7 @@
 
 
 /* ------------------------------------- Global ------------------------------------ */
+// Determine platform
 #ifdef _WIN32
   char* SYS = "WIN";
 #else
@@ -28,12 +29,12 @@
 
 
 /* ------------------------------------- Utils ------------------------------------- */
-// Clear screen Win/Unix
+// Clear screen
 void clr(void) {
   system(SYS == "WIN" ? "cls" : "clear");
 }
 
-// Pause the program
+// Pause program
 void pause(char* msg) {
   fprintf(stdout, (strlen(msg) > 0) ? "\n %s\n", msg : "\n Press enter to continue...\n");
   while (getchar() != '\n');
@@ -56,7 +57,7 @@ void help(char* msg) {
 }
 
 /* ---------------------------------- Structures ----------------------------------- */
-// Define Node structure for list items
+// Define list-item Node
 typedef struct Node {
   char name[256];
   float price;
@@ -65,7 +66,7 @@ typedef struct Node {
 
 
 /* -------------------------------- List Functions --------------------------------- */
-// Add an item to list at a specified position.
+// Add item to list at specified position.
 void add(Node* head, char* name, float price, int pos) {
   Node* current = head;
   Node* newNode = malloc(sizeof(Node));
@@ -87,7 +88,7 @@ void add(Node* head, char* name, float price, int pos) {
   }
 }
 
-// Delete an item from list at a specified position.
+// Delete item from list at specified position.
 void delete(Node* head, int pos) {
   Node* current = head;
   int i;
@@ -170,10 +171,11 @@ int main(int argc, char* argv[]) {
   Node* list = malloc(sizeof(Node));
   list->next = NULL;
 
-  // Enter interactive mode
+  // Enter event loop
   while (1) {
     fprintf(stdout, "\n\n What would you like to do?\n ");
 
+    // Check for commands
     char cmd[32];
     scanf("%s", &cmd);
 
