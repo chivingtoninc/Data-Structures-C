@@ -19,9 +19,23 @@
 #include <string.h>
 
 
-/* -------------------------------- Helper Functions ------------------------------- */
+/* ------------------------------------- Global ------------------------------------ */
+#ifdef _WIN32
+  char* SYS = "WIN";
+#else
+  char* SYS = "UNIX";
+#endif
+
+
+/* ------------------------------------- Utils ------------------------------------- */
+// Clear screen Win/Unix
+void clr(void) {
+  system(SYS == "WIN" ? "cls" : "clear");
+}
+
 // Display help menu
 void help(char* msg) {
+  clr();
   if (strlen(msg) > 0) fprintf(stdout, "\n %s\n", msg);
 
   fprintf(stdout, "\n  Options:\n ----------\n\
@@ -31,7 +45,6 @@ void help(char* msg) {
   ");
   exit(0);
 }
-
 
 /* ----------------------------------- Structures ---------------------------------- */
 // Define Node structure for list items
@@ -43,7 +56,7 @@ typedef struct Node {
 
 
 /* -------------------------------- List Functions --------------------------------- */
-// Add an item
+// Add an item to list at a specified position.
 void add(Node* head, char* name, float price, int pos) {
   Node* current = head;
   Node* newNode = malloc(sizeof(Node));
@@ -65,7 +78,7 @@ void add(Node* head, char* name, float price, int pos) {
   }
 }
 
-// Delete an item
+// Delete an item from list at a specified position.
 void delete(Node* head, int pos) {
   Node* current = head;
   int i;
@@ -84,16 +97,15 @@ void delete(Node* head, int pos) {
   else current->next = current->next->next;
 }
 
-// Print out list
+// Print list
 void display(Node* head) {
-  Node* current = head;                 // Get the head node
-  int i = 1;                            // Set list counter
+  Node* current = head;
+  int i = 1;
 
-  // Print list
-  printf("\n Grocery List\n ------------\n");
+  printf("\n      Grocery List\n ----------------------\n");
   while (current->next != NULL) {
     current = current->next;
-    printf("  %d. %s: $%.2f\n", i++, current->name, current->price);
+    printf("  %d. %s: \t$%.2f\n", i++, current->name, current->price);
   }
 }
 
@@ -106,19 +118,16 @@ int main(int argc, char* argv[]) {
     else help("Invalid argument(s).");
   }
 
+  // Clear screen
+  clr();
+
+  // Greet user
+  fprintf(stdout, "\n\n Enter items you'd like to add to the list.\n Type \"display\" to show list. Type \"exit\" when done. \n");
+
   // Set initial head node
-  Node* head = malloc(sizeof(Node));
-  head->next = NULL;
+  // Node* head = malloc(sizeof(Node));
+  // head->next = NULL;
 
-  add(head, "Chips", 2.99, 1);
-  add(head, "Salsa", 3.99, 2);
-  add(head, "Beans", 0.99, 2);
-  add(head, "Cheese", 3.99, 5);
-  delete(head, 3);
-  display(head);
-
-  // Prompt user
-  // fprintf(stdout, "\n\n Enter items you'd like to add to the list.\n Type \"display\" to show list. Type \"exit\" when done. \n");
 
   // Placeholders for item names & prices
   // double price = 0.0;
