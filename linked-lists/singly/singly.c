@@ -58,9 +58,9 @@ void help(char* msg) {
 /* ---------------------------------- Structures ----------------------------------- */
 // Define Node structure for list items
 typedef struct Node {
-  char name[256];                       // Each node stores name of grocery item
-  float price;                          // Each node stores price of grocery item
-  struct Node* next;                    // Each node has a pointer to next node in list
+  char name[256];
+  float price;
+  struct Node* next;
 } Node;
 
 
