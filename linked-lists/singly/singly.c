@@ -111,7 +111,7 @@ void show(Node* head) {
   Node* current = head;
   int i = 1;
 
-  printf("\n      Grocery List\n ----------------------\n");
+  printf("\n      Editing List\n ----------------------\n");
   while (current->next != NULL) {
     current = current->next;
     printf("  %d. %s: \t$%.2f\n", i++, current->name, current->price);
