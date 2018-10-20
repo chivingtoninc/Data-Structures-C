@@ -132,9 +132,9 @@ void save(Node* head, char* loc, char* listName) {
 
   char underline[256];
   int i;
-  for (i = 0; i < strlen(listName) + 5; i++) underline[i] = '-';
+  for (i = 0; i < strlen(listName); i++) underline[i] = '-';
 
-  fprintf(fp, "%s List\n%s\n", listName, underline);
+  fprintf(fp, "%s\n%s\n", listName, underline);
 
   Node* current = head;
   int pos = 1;
@@ -180,7 +180,7 @@ int main(int argc, char* argv[]) {
     if (!strcmp(cmd, "add")) {
       char name[256]; float price; int position;
 
-      fprintf(stdout, "\n Item name: "); scanf("%s", name);
+      fprintf(stdout, "\n Item name: "); scanf(" %255[^\n]s", name);
       fprintf(stdout, " Item price: "); scanf("%f", &price);
       fprintf(stdout, " Item position: "); scanf("%d", &position);
 
@@ -206,10 +206,10 @@ int main(int argc, char* argv[]) {
     }
 
     if (!strcmp(cmd, "save")) {
-      char loc[256], listName[256];
+      char loc[256]; char listName[256];
 
       fprintf(stdout, "\n Enter a name for this list.\n ");
-      scanf("%s", &listName);
+      scanf(" %255[^\n]s", &listName);
 
       fprintf(stdout, "\n Enter a file path/name.\n ");
       scanf("%s", &loc);

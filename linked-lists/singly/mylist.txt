@@ -1,4 +1,3 @@
-Freddy List
------------
-1. salt: 	$0.99
-2. pep: 	$0.79
+freddy meyer
+------------
+1. some salt: 	$0.99
