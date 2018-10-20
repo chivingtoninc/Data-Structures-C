@@ -33,7 +33,7 @@ A singly-linked list only has a few key attributes that you need to remember.
   2. Each node stores some data, and a pointer to the next node in the list.
   3. You can insert and delete nodes from the list at a given index in linear time. That is, the further down the list, the longer it takes to insert or delete a node at that position.
 
-This illustrates the idea of what a singly-linked list looks like.
+  **Figure 1-1** illustrates the idea of what a singly-linked list looks like.
 ![Figure 1-1](singly.png?raw=true)
 
 
