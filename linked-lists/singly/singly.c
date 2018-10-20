@@ -33,17 +33,23 @@ void clr(void) {
   system(SYS == "WIN" ? "cls" : "clear");
 }
 
+// Pause the program
+void pause(char* msg) {
+  fprintf(stdout, (strlen(msg) > 0) ? "\n %s\n", msg : "\n Press enter to continue...\n");
+  while (getchar() != '\n');
+}
+
 // Display help menu
 void help(char* msg) {
-  clr();
   if (strlen(msg) > 0) fprintf(stdout, "\n %s\n", msg);
 
   fprintf(stdout, "\n  Options:\n ----------\n\
   - add: \tadd item to list at a specified position.\n\
   - remove: \tremove item from list at a specified position.\n\
-  - display: \tdisplay list.\n\
+  - show: \tshow list.\n\
+  - exit: \texit the program.\n\
   ");
-  exit(0);
+  if (msg == "exit") exit(0);
 }
 
 /* ----------------------------------- Structures ---------------------------------- */
@@ -63,7 +69,7 @@ void add(Node* head, char* name, float price, int pos) {
   newNode->name = name;
   newNode->price = price;
 
-  for (int i = 1; i < pos; i++) {
+  for (int i = 1; i <= pos; i++) {
     if (current->next == NULL) break;
     current = current->next;
   }
@@ -98,7 +104,7 @@ void delete(Node* head, int pos) {
 }
 
 // Print list
-void display(Node* head) {
+void show(Node* head) {
   Node* current = head;
   int i = 1;
 
@@ -114,31 +120,62 @@ void display(Node* head) {
 int main(int argc, char* argv[]) {
   // Check args
   if (argc > 1) {
-    if (!strcmp(argv[1], "--help")) help("");
+    if (!strcmp(argv[1], "--help")) help("exit");
     else help("Invalid argument(s).");
   }
 
-  // Clear screen
+  // Clear screen & greet user
   clr();
+  fprintf(stdout, "\n Welcome to the Singly-Linked Grocery List!\n");
+  fprintf(stdout, "\n Would you like to see instructions?\n (y/n): ");
 
-  // Greet user
-  fprintf(stdout, "\n\n Enter items you'd like to add to the list.\n Type \"display\" to show list. Type \"exit\" when done. \n");
+  char chooseHelp[4];
+  scanf("%s", &chooseHelp);
+  if (!strcmp(chooseHelp, "y")) help("");
 
   // Set initial head node
-  // Node* head = malloc(sizeof(Node));
-  // head->next = NULL;
+  Node* list = malloc(sizeof(Node));
+  list->next = NULL;
 
+  // Enter interactive mode
+  while (1) {
+    fprintf(stdout, "\n\n What would you like to do?\n ");
 
-  // Placeholders for item names & prices
-  // double price = 0.0;
-  // char name[8];
+    char cmd[32];
+    scanf("%s", &cmd);
 
-  // Get list items from user
-  // fprintf(stdout, "\n Item name: "); scanf("%s", name);
-  // fprintf(stdout, "\n Item price: %d\n"); scanf("%d", &price);
+    char name[256];
+    float price;
+    int position;
 
-  // Display list for testing
-  // display(head);
+    if (!strcmp(cmd, "add")) {
+      fprintf(stdout, "\n Item name: "); scanf("%s", name);
+      fprintf(stdout, "\n Item price: "); scanf("%f", &price);
+      fprintf(stdout, "\n Item position: "); scanf("%d", &position);
+
+      fprintf(stdout, "\n Adding \"%s = $%.2f\" to the list at position %d...", name, price, position);
+      add(list, name, price, position);
+      continue;
+    }
+
+    if (!strcmp(cmd, "delete")) {
+      show(list);
+      fprintf(stdout, "\n Item position: ");
+      scanf("%d", &position);
+
+      delete(list, position);
+      continue;
+    }
+
+    if (!strcmp(cmd, "show")) {
+      show(list);
+      continue;
+    }
+
+    if (!strcmp(cmd, "exit")) break;
+
+    fprintf(stdout, "\n Invalid command.\n");
+  }
 
   return 0;
 }
