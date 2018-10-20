@@ -118,6 +118,36 @@ void show(Node* head) {
   }
 }
 
+// Save list
+void save(Node* head, char* loc, char* listName) {
+  fprintf(stdout, "\n Saving as...\n");
+  show(head);
+
+  FILE* fp = fopen(loc, "w");
+
+  if (fp == NULL) {
+    fprintf(stdout, "\n Can't save to that location.\n");
+    return;
+  }
+
+  char underline[256];
+  int i;
+  for (i = 0; i < strlen(listName) + 5; i++) underline[i] = '-';
+
+  fprintf(fp, "%s List\n%s\n", listName, underline);
+
+  Node* current = head;
+  int pos = 1;
+
+  while (current->next != NULL) {
+    current = current->next;
+    fprintf(fp, "%d. %s: \t$%.2f\n", pos++, current->name, current->price);
+  }
+
+  fclose(fp);
+  fprintf(stdout, "\n List saved at: %s\n", loc);
+}
+
 
 /* ---------------------------------- Main Program --------------------------------- */
 int main(int argc, char* argv[]) {
@@ -147,14 +177,14 @@ int main(int argc, char* argv[]) {
     char cmd[32];
     scanf("%s", &cmd);
 
-    char name[256]; float price; int position;
-
     if (!strcmp(cmd, "add")) {
-      fprintf(stdout, "\n Item name: "); scanf("%s", name);
-      fprintf(stdout, "\n Item price: "); scanf("%f", &price);
-      fprintf(stdout, "\n Item position: "); scanf("%d", &position);
+      char name[256]; float price; int position;
 
-      fprintf(stdout, "\n Adding \"%s = $%.2f\" to the list at position %d...", name, price, position);
+      fprintf(stdout, "\n Item name: "); scanf("%s", name);
+      fprintf(stdout, " Item price: "); scanf("%f", &price);
+      fprintf(stdout, " Item position: "); scanf("%d", &position);
+
+      fprintf(stdout, "\n Adding \"%s = $%.2f\" to the list at position %d...\n", name, price, position);
       add(list, name, price, position);
       continue;
     }
@@ -162,13 +192,29 @@ int main(int argc, char* argv[]) {
     if (!strcmp(cmd, "delete")) {
       show(list);
       fprintf(stdout, "\n Item position: ");
+
+      int position;
       scanf("%d", &position);
+
       delete(list, position);
       continue;
     }
 
     if (!strcmp(cmd, "show")) {
       show(list);
+      continue;
+    }
+
+    if (!strcmp(cmd, "save")) {
+      char loc[256], listName[256];
+
+      fprintf(stdout, "\n Enter a name for this list.\n ");
+      scanf("%s", &listName);
+
+      fprintf(stdout, "\n Enter a file path/name.\n ");
+      scanf("%s", &loc);
+
+      save(list, loc, listName);
       continue;
     }
 
