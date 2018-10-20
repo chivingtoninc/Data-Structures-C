@@ -41,21 +41,24 @@ void pause(char* msg) {
 
 // Display help menu
 void help(char* msg) {
-  if (strlen(msg) > 0) fprintf(stdout, "\n %s\n", msg);
+  int suppress = (strcmp(msg, "exit") || strcmp(msg, "continue")) ? 1 : 0;
+  if (strlen(msg) > 0 && !suppress) fprintf(stdout, "\n %s\n", msg);
 
   fprintf(stdout, "\n  Options:\n ----------\n\
   - add: \tadd item to list at a specified position.\n\
   - remove: \tremove item from list at a specified position.\n\
   - show: \tshow list.\n\
+  - help: \tshow this menu.\n\
   - exit: \texit the program.\n\
   ");
-  if (msg == "exit") exit(0);
+
+  if (strcmp(msg, "continue")) exit(0);
 }
 
 /* ----------------------------------- Structures ---------------------------------- */
 // Define Node structure for list items
 typedef struct Node {
-  char* name;                           // Each node stores name of grocery item
+  char name[32];                        // Each node stores name of grocery item
   float price;                          // Each node stores price of grocery item
   struct Node* next;                    // Each node has a pointer to next node in list
 } Node;
@@ -66,10 +69,10 @@ typedef struct Node {
 void add(Node* head, char* name, float price, int pos) {
   Node* current = head;
   Node* newNode = malloc(sizeof(Node));
-  newNode->name = name;
+  strcpy(newNode->name, name);
   newNode->price = price;
 
-  for (int i = 1; i <= pos; i++) {
+  for (int i = 1; i < pos; i++) {
     if (current->next == NULL) break;
     current = current->next;
   }
@@ -131,7 +134,7 @@ int main(int argc, char* argv[]) {
 
   char chooseHelp[4];
   scanf("%s", &chooseHelp);
-  if (!strcmp(chooseHelp, "y")) help("");
+  if (!strcmp(chooseHelp, "y")) help("continue");
 
   // Set initial head node
   Node* list = malloc(sizeof(Node));
@@ -144,9 +147,7 @@ int main(int argc, char* argv[]) {
     char cmd[32];
     scanf("%s", &cmd);
 
-    char name[256];
-    float price;
-    int position;
+    char name[256]; float price; int position;
 
     if (!strcmp(cmd, "add")) {
       fprintf(stdout, "\n Item name: "); scanf("%s", name);
@@ -162,7 +163,6 @@ int main(int argc, char* argv[]) {
       show(list);
       fprintf(stdout, "\n Item position: ");
       scanf("%d", &position);
-
       delete(list, position);
       continue;
     }
@@ -172,6 +172,7 @@ int main(int argc, char* argv[]) {
       continue;
     }
 
+    if (!strcmp(cmd, "help")) help("continue");
     if (!strcmp(cmd, "exit")) break;
 
     fprintf(stdout, "\n Invalid command.\n");
