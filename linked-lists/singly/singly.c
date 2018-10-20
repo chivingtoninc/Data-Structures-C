@@ -20,14 +20,15 @@
 
 
 /* -------------------------------- Helper Functions ------------------------------- */
-void help(void) {
-  fprintf(stdout, "\n Options:\n");
-  fprintf(stdout, "\n  - append: append item to end of list.");
-  fprintf(stdout, "\n  - prepend: prepend item to beginning of list.");
-  fprintf(stdout, "\n  - insert: insert item at specific location.");
-  fprintf(stdout, "\n  - remove: remove item from specific location.");
-  fprintf(stdout, "\n  - removeFirst: remove first item from list.");
-  fprintf(stdout, "\n  - removeLast: remove last item from list.");
+// Display help menu
+void help(char* msg) {
+  if (strlen(msg) > 0) fprintf(stdout, "\n %s\n", msg);
+
+  fprintf(stdout, "\n  Options:\n ----------\n\
+  - add: \tadd item to list at a specified position.\n\
+  - remove: \tremove item from list at a specified position.\n\
+  - display: \tdisplay list.\n\
+  ");
   exit(0);
 }
 
@@ -35,137 +36,99 @@ void help(void) {
 /* ----------------------------------- Structures ---------------------------------- */
 // Define Node structure for list items
 typedef struct Node {
+  char* name;                           // Each node stores name of grocery item
+  float price;                          // Each node stores price of grocery item
   struct Node* next;                    // Each node has a pointer to next node in list
-  double price;                         // Each node stores price of grocery item
-  char name[8];                         // Each node stores name of grocery item
 } Node;
 
 
 /* -------------------------------- List Functions --------------------------------- */
+// Add an item
+void add(Node* head, char* name, float price, int pos) {
+  Node* current = head;
+  Node* newNode = malloc(sizeof(Node));
+  newNode->name = name;
+  newNode->price = price;
+
+  for (int i = 1; i < pos; i++) {
+    if (current->next == NULL) break;
+    current = current->next;
+  }
+
+  if (current->next == NULL) {
+    newNode->next = NULL;
+    current->next = newNode;
+  }
+  else {
+    newNode->next = current->next;
+    current->next = newNode;
+  }
+}
+
+// Delete an item
+void delete(Node* head, int pos) {
+  Node* current = head;
+  int i;
+
+  for (i = 1; i < pos; i++) {
+    if (current->next == NULL) break;
+    current = current->next;
+  }
+
+  if (i < pos) {
+    fprintf(stdout, "\n Not that many items in the list.");
+    return;
+  }
+
+  if (current->next->next == NULL) current->next = NULL;
+  else current->next = current->next->next;
+}
+
 // Print out list
 void display(Node* head) {
   Node* current = head;                 // Get the head node
+  int i = 1;                            // Set list counter
 
+  // Print list
   printf("\n Grocery List\n ------------\n");
-  while (current != NULL) {             // Move through the list
-    char* n = current->name;            // Get item name
-    double p = current->price;          // Get item price
-    printf("  - %s: %.2f\n", n, p);     // Print each price
-    current = current->next;            // Update current node of list
+  while (current->next != NULL) {
+    current = current->next;
+    printf("  %d. %s: $%.2f\n", i++, current->name, current->price);
   }
-}
-
-// Prepend item to beginning of list
-void prepend(Node** head, int price) {
-  Node* newNode;                        // Get the head node
-  newNode = malloc(sizeof(Node));       // Allocate new node
-
-  newNode->price = price;               // Set new node's price
-  newNode->next = *head;                // Set new node's next pointer to previous head
-  *head = newNode;                      // Set head pointer to new node
-}
-
-// Append item to end of list
-void append(Node* head, double price) {
-  Node* current = head;                 // Get the head node
-
-  while (current->next != NULL)         // Go to end of list
-    current = current->next;            // Set current node to last node
-
-  current->next = malloc(sizeof(Node)); // Allocate new node & point last node's next to it
-  current->next->price = price;         // Set new node's price
-  current->next->next = NULL;           // Set new node's next NULL to indicate last node
-}
-
-// Insert item at specific location
-void insert(Node* head, double price) {
-  Node* current = head;                 // Get the head node
-
-  while (current->next != NULL)         // Go to end of list
-    current = current->next;            // Set current node to last node
-
-  current->next = malloc(sizeof(Node)); // Allocate new node & point last node's next to it
-  current->next->price = price;         // Set new node's price
-  current->next->next = NULL;           // Set new node's next NULL to indicate last node
-}
-
-// Remove item from the beginning of the list.
-double removeFirst(Node** head) {\
-  if (*head == NULL) return -1;         // Return if list is empty
-
-  double headPrice = (*head)->price;    // Get head node's price
-  Node* nextNode = (*head)->next;       // Set next node to head node's next
-  free(*head);                          // Delete head node
-  *head = nextNode;                     // Set head pointer to next node
-
-  return headPrice;                     // Return old head node's price
-}
-
-// Remove item from the end of the list.
-double removeLast(Node* head) {
-  if (head == NULL) return -1;         // Return if list is empty
-
-  Node* previous = NULL;                // Placeholder for next to last node
-  Node* current = head;                 // Get head node
-
-  while (current->next != NULL) {       // Go to end of list
-    previous = current;                 // Update previous to current
-    current = current->next;            // Update current to next
-  }
-
-  double lastPrice = current->price;    // Get lst node's price
-  free(current);                        // Delete last node
-  previous->next = NULL;                // Set 2nd to last node's next NULL to indicate last node
-
-  return lastPrice;                     // Return last node's price
-
-}
-
-// Remove item from specific location
-double remove(Node* head) {
-  if (head == NULL) return -1;         // Return if list is empty
-
-  Node* previous = NULL;                // Placeholder for next to last node
-  Node* current = head;                 // Get head node
-
-  while (current->next != NULL) {       // Go to end of list
-    previous = current;                 // Update previous to current
-    current = current->next;            // Update current to next
-  }
-
-  double lastPrice = current->price;    // Get lst node's price
-  free(current);                        // Delete last node
-  previous->next = NULL;                // Set 2nd to last node's next NULL to indicate last node
-
-  return lastPrice;                     // Return last node's price
 }
 
 
 /* ---------------------------------- Main Program --------------------------------- */
-int main(int argc, const char* argv[]) {
-  // Check help
-  help();
-  
-  // // Check for "--help" flag & greet user
-  // if (argv[2] == "--help") help();
-  // fprintf(stdout, "\n Welcome to the Singly-Linked Grocery List app.\n");
-  // fprintf(stdout, "\n Type \"help\" or run with option \"--help\" for options.\n");
-  //
-  // // Set initial head node
-  // Node* head = malloc(sizeof(Node));
-  //
-  // // Prompt user
+int main(int argc, char* argv[]) {
+  // Check args
+  if (argc > 1) {
+    if (!strcmp(argv[1], "--help")) help("");
+    else help("Invalid argument(s).");
+  }
+
+  // Set initial head node
+  Node* head = malloc(sizeof(Node));
+  head->next = NULL;
+
+  add(head, "Chips", 2.99, 1);
+  add(head, "Salsa", 3.99, 2);
+  add(head, "Beans", 0.99, 2);
+  add(head, "Cheese", 3.99, 5);
+  delete(head, 3);
+  display(head);
+
+  // Prompt user
   // fprintf(stdout, "\n\n Enter items you'd like to add to the list.\n Type \"display\" to show list. Type \"exit\" when done. \n");
-  //
-  // // Placeholders for item names & prices
+
+  // Placeholders for item names & prices
   // double price = 0.0;
   // char name[8];
-  //
-  // // Get list items from user
+
+  // Get list items from user
   // fprintf(stdout, "\n Item name: "); scanf("%s", name);
   // fprintf(stdout, "\n Item price: %d\n"); scanf("%d", &price);
-  //
-  // // Display list for testing
+
+  // Display list for testing
   // display(head);
 
   return 0;
