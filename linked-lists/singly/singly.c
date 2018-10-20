@@ -55,10 +55,10 @@ void help(char* msg) {
   if (strcmp(msg, "continue")) exit(0);
 }
 
-/* ----------------------------------- Structures ---------------------------------- */
+/* ---------------------------------- Structures ----------------------------------- */
 // Define Node structure for list items
 typedef struct Node {
-  char name[32];                        // Each node stores name of grocery item
+  char name[256];                       // Each node stores name of grocery item
   float price;                          // Each node stores price of grocery item
   struct Node* next;                    // Each node has a pointer to next node in list
 } Node;
