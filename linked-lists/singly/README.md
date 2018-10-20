@@ -34,7 +34,7 @@ A singly-linked list only has a few key attributes that you need to remember. Se
   3. You can insert and delete nodes from the list at a given index in linear time. That is, the further down the list, the longer it takes to insert or delete a node at that position.
 
 ![Figure 1-1](singly.png?raw=true)
-<p style="text-align: center;">**Figure 1-1**</p>
+<p style="width: 100%; text-align: center;">**Figure 1-1**</p>
 
 ## Testing
 Navigate to an example in the Data-Structures-C directory and compile/run.
