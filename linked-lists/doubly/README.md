@@ -1,5 +1,5 @@
-# Singly-Linked List
-Singly-Linked List data structure, implemented as an interactive grocery list in C.
+# Doubly-Linked List
+Doubly-Linked List data structure, implemented as an interactive grocery list in C.
 
 ![Build Status](https://img.shields.io/badge/build-Stable-green.svg)
 ![License](https://img.shields.io/badge/license-DO_WHATEVER_YOU_WANT-green.svg)
@@ -28,29 +28,29 @@ Singly-Linked List data structure, implemented as an interactive grocery list in
 ```
 
 ## Illustration
-A singly-linked list only has a few key attributes that you need to remember. See **Figure 1-1**
+A doubly-linked list only has a few key attributes that you need to remember. See **Figure 1-1**
   1. It is made of individual nodes.
-  2. Each node stores some data, and a pointer to the next node in the list.
+  2. Each node stores some data, and a pointer to their previous and next nodes in the list.
   3. You can insert and delete nodes from the list at a given index in linear time. That is, the longer the list, the longer it takes to insert or delete a node at that position.
 
   **Figure 1-1**
-![Figure 1-1](singly.png?raw=true)
+![Figure 1-1](doubly.png?raw=true)
 
 ## Testing
 Navigate to an example in the Data-Structures-C directory and compile/run.
 
 Assuming your C compiler is GCC and you're on Linux:
 ```
-  cd /path/to/Data-Structures-C/singly
-  gcc singly.c -o singly
-  ./singly
+  cd /path/to/Data-Structures-C/doubly
+  gcc doubly.c -o doubly
+  ./doubly
 ```
 
 Assuming your C compiler is GCC and you're on Windows:
 ```
-  cd /path/to/Data-Structures-C/singly
-  gcc singly.c -o singly
-  singly
+  cd /path/to/Data-Structures-C/doubly
+  gcc doubly.c -o doubly
+  doubly
 ```
 
 ## Usage
