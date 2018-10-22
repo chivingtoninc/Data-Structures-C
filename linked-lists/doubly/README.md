@@ -65,7 +65,7 @@ Only real use is for learning about Linked Lists. You can copy into a bigger pro
 Not currently accepting outside contributors, but feel free to clone, fork, modify and use as you wish.
 
 ## Acknowledgments
-Thanks to [Gayle Laakmann McDowell](https://youtu.be/shs0KM3wKv8) for their brilliant explanations of these data structures.
+Thanks to [Gayle Laakmann McDowell](https://youtu.be/shs0KM3wKv8) for her brilliant explanations of these data structures.
 
 ## License
 This project is licensed under the DO_WHATEVER_YOU_WANT License - see the [LICENSE](https://github.com/chivingtoninc/Data-Structures-C/blob/master/LICENSE) file for details
