@@ -17,6 +17,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stdbool.h>
 
 
 /* ------------------------------------- Global ------------------------------------ */
@@ -27,9 +28,10 @@
   char* SYS = "UNIX";
 #endif
 
-// Max length for List / Node names
-#define NAME_MX 64
-#define PATH_MX 256
+// Lengths
+#define ALPHA_LEN 26
+#define PHONE_LEN 10
+#define PATH_LEN 256
 
 
 /* ------------------------------------ Utils -------------------------------------- */
@@ -62,15 +64,16 @@ void help(char* msg) {
 
 
 /* -------------------------------- Node Structure --------------------------------- */
-// List Node
+// Trie Node
 typedef struct Node {
-  char name[NAME_MX];
-  float price;
-  struct Node* next;
+  char letter;
+  bool end;
+  char phone[PHONE_LEN]
+  struct Node* children[ALPHA_LEN];
 } Node;
 
 // Create new Node
-Node* createNode(char* name, float price, Node* next) {
+Node* createNode(char letter, bool end, Node* children[]) {
   Node* newNode = malloc(sizeof(Node));
   strcpy(newNode->name, name);
   newNode->price = price;
@@ -85,10 +88,10 @@ void destroyNode(Node* node) {
 
 
 /* -------------------------------- List Structure --------------------------------- */
-// List
-typedef struct List {
-  Node* head;
-} List;
+// Trie
+typedef struct Trie {
+  Node* root;
+} Trie;
 
 // Create new List
 List* createList(void) {
@@ -259,7 +262,7 @@ int main(int argc, char* argv[]) {
 
     if (!strcmp(cmd, "save")) {
       if (show(list->head)) {
-        char loc[PATH_MX]; char listName[NAME_MX];
+        char loc[PATH_LEN]; char listName[NAME_MX];
 
         fprintf(stdout, "\n Enter a name for this list.\n ");
         scanf(" %[^\n]s", &listName);
