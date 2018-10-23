@@ -174,9 +174,16 @@ int main(int argc, char* argv[]) {
   scanf("%s", &chooseHelp);
   if (!strcmp(chooseHelp, "y")) help("continue");
 
-  // Set initial head node
+  // Initialize head & tail nodes
   Node* head = malloc(sizeof(Node));
-  head->next = NULL;
+  Node* tail = malloc(sizeof(Node));
+
+  // Set head & tail pointers
+  head->next = tail;
+  head->prev = tail;
+  tail->next = head;
+  tail->prev = head;
+
 
   // Enter event loop
   while (1) {

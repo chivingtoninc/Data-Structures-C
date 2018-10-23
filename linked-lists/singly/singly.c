@@ -18,6 +18,10 @@
 #include <stdlib.h>
 #include <string.h>
 
+// import modules
+#include "lib/utils.h"
+#include "lib/structs.h"
+
 
 /* ------------------------------------- Global ------------------------------------ */
 // Determine platform
@@ -26,43 +30,6 @@
 #else
   char* SYS = "UNIX";
 #endif
-
-
-/* ------------------------------------- Utils ------------------------------------- */
-// Clear screen
-void clr(void) {
-  system(SYS == "WIN" ? "cls" : "clear");
-}
-
-// Pause program
-void pause(char* msg) {
-  fprintf(stdout, (strlen(msg) > 0) ? "\n %s\n", msg : "\n Press enter to continue...\n");
-  while (getchar() != '\n');
-}
-
-// Display help menu
-void help(char* msg) {
-  int suppress = (strcmp(msg, "exit") || strcmp(msg, "continue")) ? 1 : 0;
-  if (strlen(msg) > 0 && !suppress) fprintf(stdout, "\n %s\n", msg);
-
-  fprintf(stdout, "\n  Options:\n ----------\n\
-  - add: \tadd item to list at a specified position, by number.\n\
-  - remove: \tremove item from list at a specified position, by number.\n\
-  - show: \tshow list.\n\
-  - help: \tshow this menu.\n\
-  - exit: \texit the program.\n\
-  ");
-
-  if (strcmp(msg, "continue")) exit(0);
-}
-
-/* ---------------------------------- Structures ----------------------------------- */
-// Define list-item Node
-typedef struct Node {
-  char name[256];
-  float price;
-  struct Node* next;
-} Node;
 
 
 /* -------------------------------- List Functions --------------------------------- */
@@ -165,7 +132,7 @@ int main(int argc, char* argv[]) {
   }
 
   // Clear screen & greet user
-  clr();
+  clr(SYS);
   fprintf(stdout, "\n Welcome to the Singly-Linked Grocery List!\n");
   fprintf(stdout, "\n Would you like to see instructions?\n (y/n): ");
 
@@ -192,7 +159,7 @@ int main(int argc, char* argv[]) {
       fprintf(stdout, " Item price: "); scanf("%f", &price);
 
       if (show(head)) {
-        fprintf(stdout, "\n Where would you like to insert this item?\n");
+        fprintf(stdout, "\n Where would you like to insert this item?\n ");
         scanf("%d", &position);
       }
       else position = 1;
