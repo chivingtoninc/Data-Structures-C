@@ -33,7 +33,7 @@ My goal is to give you a use for these data structures, rather than some abstrac
 A singly-linked list only has a few key attributes that you need to remember. See **Figure 1-1**
   1. It is made of individual nodes.
   2. Each node stores some data, and a pointer to the next node in the list.
-  3. You can insert and delete nodes from the list at a given index in linear time. That is, the longer the list, the longer it takes to insert or delete a node at that position.
+  3. You can insert, delete and view nodes from the list at a given index in linear time. That is, the longer the list, the longer it takes to insert/delete/view a node near the end.
 
   **Figure 1-1**
 ![Figure 1-1](singly.png?raw=true)
