@@ -1,22 +1,22 @@
 # Singly-Linked List
 Singly-Linked List data structure, written in C. This linked list is implemented as an interactive grocery list, to show how we can use these data structures. As such, there is a little more to it than you might see in other implementations.
 
-My goal is to give you a use for these data structures, rather than some abstract concept that does nothing useful. See the [illustration section](https://github.com/chivingtoninc/Data-Structures-C/linked-lists/singly#illustration) below for the minimal requirements of a linked list and then view the code to see how it can be useful in things like grocery lists, to-do lists, etc.
+My goal is to give you a use for these data structures, rather than some abstract concept that does nothing useful. See the [illustration section](https://github.com/chivingtoninc/Data-Structures-C/tree/master/linked-lists/singly#illustration) below for the minimal requirements of a linked list and then view the code to see how it can be useful in things like grocery lists, to-do lists, etc.
 
 ![Build Status](https://img.shields.io/badge/build-Stable-green.svg)
 ![License](https://img.shields.io/badge/license-DO_WHATEVER_YOU_WANT-green.svg)
 <br/><br/><br/>
 
 ## Contents
-* [Prerequisites](https://github.com/chivingtoninc/Data-Structures-C/linked-lists/singly#prerequisites)
-* [Installation](https://github.com/chivingtoninc/Data-Structures-C/linked-lists/singly#installation)
-* [Testing](https://github.com/chivingtoninc/Data-Structures-C/linked-lists/singly#testing)
-* [Illustration](https://github.com/chivingtoninc/Data-Structures-C/linked-lists/singly#illustration)
-* [Usage](https://github.com/chivingtoninc/Data-Structures-C/linked-lists/singly#usage)
-* [Authors](https://github.com/chivingtoninc/Data-Structures-C/linked-lists/singly#authors)
-* [Contributing](https://github.com/chivingtoninc/Data-Structures-C/linked-lists/singly#contributing)
-* [Acknowledgments](https://github.com/chivingtoninc/Data-Structures-C/linked-lists/singly#acknowledgments)
-* [License](https://github.com/chivingtoninc/Data-Structures-C/linked-lists/singly#license)
+* [Prerequisites](https://github.com/chivingtoninc/Data-Structures-C/tree/master/linked-lists/singly#prerequisites)
+* [Installation](https://github.com/chivingtoninc/Data-Structures-C/tree/master/linked-lists/singly#installation)
+* [Testing](https://github.com/chivingtoninc/Data-Structures-C/tree/master/linked-lists/singly#testing)
+* [Illustration](https://github.com/chivingtoninc/Data-Structures-C/tree/master/linked-lists/singly#illustration)
+* [Usage](https://github.com/chivingtoninc/Data-Structures-C/tree/master/linked-lists/singly#usage)
+* [Authors](https://github.com/chivingtoninc/Data-Structures-C/tree/master/linked-lists/singly#authors)
+* [Contributing](https://github.com/chivingtoninc/Data-Structures-C/tree/master/linked-lists/singly#contributing)
+* [Acknowledgments](https://github.com/chivingtoninc/Data-Structures-C/tree/master/linked-lists/singly#acknowledgments)
+* [License](https://github.com/chivingtoninc/Data-Structures-C/tree/master/linked-lists/singly#license)
 <br/>
 
 ## Prerequisites
