@@ -18,10 +18,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-// import modules
-#include "lib/utils.h"
-#include "lib/structs.h"
-
 
 /* ------------------------------------- Global ------------------------------------ */
 // Determine platform
@@ -31,8 +27,81 @@
   char* SYS = "UNIX";
 #endif
 
+// Max length for List / Node names
+#define NAME_MX 64
+#define PATH_MX 256
 
-/* -------------------------------- List Functions --------------------------------- */
+
+/* ------------------------------------ Utils -------------------------------------- */
+// Clear screen
+void clr(void) {
+  system(SYS == "WIN" ? "cls" : "clear");
+}
+
+// Pause program
+void pause(char* msg) {
+  fprintf(stdout, (strlen(msg) > 0) ? "\n %s\n", msg : "\n Press enter to continue...\n");
+  while (getchar() != '\n');
+}
+
+// Display help menu
+void help(char* msg) {
+  int suppress = (strcmp(msg, "exit") || strcmp(msg, "continue")) ? 1 : 0;
+  if (strlen(msg) > 0 && !suppress) fprintf(stdout, "\n %s\n", msg);
+
+  fprintf(stdout, "\n  Options:\n ----------\n\
+  - add: \tadd item to list at a specified position, by number.\n\
+  - remove: \tremove item from list at a specified position, by number.\n\
+  - show: \tshow list.\n\
+  - help: \tshow this menu.\n\
+  - exit: \texit the program.\n\
+  ");
+
+  if (strcmp(msg, "continue")) exit(0);
+}
+
+
+/* -------------------------------- Node Structure --------------------------------- */
+// List Node
+typedef struct Node {
+  char name[NAME_MX];
+  float price;
+  struct Node* next;
+} Node;
+
+// Create new Node
+Node* createNode(char* name, float price, Node* next) {
+  Node* newNode = malloc(sizeof(Node));
+  strcpy(newNode->name, name);
+  newNode->price = price;
+  newNode->next = next;
+  return newNode;
+}
+
+// Destroy Node
+void destroyNode(Node* node) {
+  if (node) free(node);
+}
+
+
+/* -------------------------------- List Structure --------------------------------- */
+// List
+typedef struct List {
+  Node* head;
+} List;
+
+// Create new List
+List* createList(void) {
+  List* newList = malloc(sizeof(List));
+  newList->head->next = NULL;
+  return newList;
+}
+
+// Destroy List
+void destroyList(List* list) {
+  if (list) free(list);
+}
+
 // Add item to list at specified position.
 void add(Node* head, char* name, float price, int pos) {
   Node* newNode = malloc(sizeof(Node));
@@ -105,7 +174,7 @@ void save(Node* head, char* loc, char* listName) {
     return;
   }
 
-  char underline[256]; int i;
+  char underline[NAME_MX]; int i;
   for (i = 0; i < strlen(listName); i++) underline[i] = '-';
 
   fprintf(fp, "%s\n%s\n", listName, underline);
@@ -113,7 +182,7 @@ void save(Node* head, char* loc, char* listName) {
   Node* current = head;
   int pos = 1;
 
-  while (current != NULL) {
+  while (current->next != NULL) {
     current = current->next;
     fprintf(fp, "%d. %s: \t$%.2f\n", pos++, current->name, current->price);
   }
@@ -132,7 +201,7 @@ int main(int argc, char* argv[]) {
   }
 
   // Clear screen & greet user
-  clr(SYS);
+  clr();
   fprintf(stdout, "\n Welcome to the Singly-Linked Grocery List!\n");
   fprintf(stdout, "\n Would you like to see instructions?\n (y/n): ");
 
@@ -140,9 +209,8 @@ int main(int argc, char* argv[]) {
   scanf("%s", &chooseHelp);
   if (!strcmp(chooseHelp, "y")) help("continue");
 
-  // Set initial head node
-  Node* head = malloc(sizeof(Node));
-  head->next = NULL;
+  // Create List
+  List* list = createList();
 
   // Enter event loop
   while (1) {
@@ -153,30 +221,30 @@ int main(int argc, char* argv[]) {
     scanf("%s", &cmd);
 
     if (!strcmp(cmd, "add")) {
-      char name[256]; float price; int position;
+      char name[NAME_MX]; float price; int position;
 
-      fprintf(stdout, "\n Item name: "); scanf(" %255[^\n]s", name);
+      fprintf(stdout, "\n Item name: "); scanf(" %[^\n]s", name);
       fprintf(stdout, " Item price: "); scanf("%f", &price);
 
-      if (show(head)) {
+      if (show(list->head)) {
         fprintf(stdout, "\n Where would you like to insert this item?\n ");
         scanf("%d", &position);
       }
       else position = 1;
 
       fprintf(stdout, "\n Adding \"%s = $%.2f\" to the list at position %d...\n", name, price, position);
-      add(head, name, price, position);
+      add(list->head, name, price, position);
       continue;
     }
 
     if (!strcmp(cmd, "delete")) {
-      if (show(head)) {
+      if (show(list->head)) {
         int position;
 
         fprintf(stdout, "\n Which item would you like to delete?\n ");
         scanf("%d", &position);
 
-        delete(head, position);
+        delete(list->head, position);
         continue;
       }
 
@@ -185,21 +253,21 @@ int main(int argc, char* argv[]) {
     }
 
     if (!strcmp(cmd, "show")) {
-      if (!show(head)) fprintf(stdout, "\n List is currently empty...");
+      if (!show(list->head)) fprintf(stdout, "\n List is currently empty...");
       continue;
     }
 
     if (!strcmp(cmd, "save")) {
-      if (show(head)) {
-        char loc[256]; char listName[256];
+      if (show(list->head)) {
+        char loc[PATH_MX]; char listName[NAME_MX];
 
         fprintf(stdout, "\n Enter a name for this list.\n ");
-        scanf(" %255[^\n]s", &listName);
+        scanf(" %[^\n]s", &listName);
 
         fprintf(stdout, "\n Enter a file path/name.\n ");
         scanf("%s", &loc);
 
-        save(head, loc, listName);
+        save(list->head, loc, listName);
       }
       continue;
     }
