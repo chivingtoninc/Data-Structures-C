@@ -1,5 +1,7 @@
 # Singly-Linked List
-Singly-Linked List data structure, implemented as an interactive grocery list in C.
+Singly-Linked List data structure, written in C. This linked list is implemented as an interactive grocery list, to show how we can use these data structures. As such, there is a little more to it than you might see in other implementations.
+
+My goal is to give you a use for these data structures, rather than some abstract concept that does nothing useful. See the [illustration section](https://github.com/chivingtoninc/Data-Structures-C#illustration) below for the minimal requirements of a linked list and then view the code to see how it can be useful in things like grocery lists, to-do lists, etc.
 
 ![Build Status](https://img.shields.io/badge/build-Stable-green.svg)
 ![License](https://img.shields.io/badge/license-DO_WHATEVER_YOU_WANT-green.svg)
@@ -55,6 +57,12 @@ Assuming your C compiler is GCC and you're on Windows:
 
 ## Usage
 Only real use is for learning about Linked Lists. You can copy into a bigger project, but this should not be considered production-ready in any way. Simply follow the steps in **Testing** to use.
+
+Note that this implementation is a slight deviation from most implementations you might see in that there is no specific "append" or "prepend" method. Instead of having multiple methods for insertion, there is only one. You are shown the list as it currently is before insertion and can choose where to insert. This is cleaner to me than having mostly-redundant insertion methods. Likewise, there are no redundant deletion methods.
+
+The characteristics of a linked list do not specify explicit methods for insertion/deletion, only how insertion/deletion is accomplished. A singly-linked list must use it's "next" pointer to traverse the list for insertion/deletion, which this implementation does.
+
+Also note that the "save" method is not a standard method of a linked list. It is only here as an added feature.
 <br/><br/><br/>
 
 

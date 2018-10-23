@@ -46,8 +46,8 @@ void help(char* msg) {
   if (strlen(msg) > 0 && !suppress) fprintf(stdout, "\n %s\n", msg);
 
   fprintf(stdout, "\n  Options:\n ----------\n\
-  - add: \tadd item to list at a specified position.\n\
-  - remove: \tremove item from list at a specified position.\n\
+  - add: \tadd item to list at a specified position, by number.\n\
+  - remove: \tremove item from list at a specified position, by number.\n\
   - show: \tshow list.\n\
   - help: \tshow this menu.\n\
   - exit: \texit the program.\n\
@@ -68,10 +68,16 @@ typedef struct Node {
 /* -------------------------------- List Functions --------------------------------- */
 // Add item to list at specified position.
 void add(Node* head, char* name, float price, int pos) {
-  Node* current = head;
   Node* newNode = malloc(sizeof(Node));
   strcpy(newNode->name, name);
   newNode->price = price;
+
+  if (head == NULL) {
+    head = newNode;
+    return;
+  }
+
+  Node* current = head;
 
   for (int i = 1; i < pos; i++) {
     if (current->next == NULL) break;
@@ -108,22 +114,23 @@ void delete(Node* head, int pos) {
 }
 
 // Print list
-void show(Node* head) {
+int show(Node* head) {
+  if (head->next == NULL) return 0;
+
   Node* current = head;
   int i = 1;
 
-  printf("\n      Editing List\n ----------------------\n");
+  fprintf(stdout, "\n      Editing List\n ----------------------\n");
   while (current->next != NULL) {
     current = current->next;
-    printf("  %d. %s: \t$%.2f\n", i++, current->name, current->price);
+    fprintf(stdout, "  %d. %s: \t$%.2f\n", i++, current->name, current->price);
   }
+
+  return 1;
 }
 
 // Save list
 void save(Node* head, char* loc, char* listName) {
-  fprintf(stdout, "\n Saving as...\n");
-  show(head);
-
   FILE* fp = fopen(loc, "w");
 
   if (fp == NULL) {
@@ -131,8 +138,7 @@ void save(Node* head, char* loc, char* listName) {
     return;
   }
 
-  char underline[256];
-  int i;
+  char underline[256]; int i;
   for (i = 0; i < strlen(listName); i++) underline[i] = '-';
 
   fprintf(fp, "%s\n%s\n", listName, underline);
@@ -140,7 +146,7 @@ void save(Node* head, char* loc, char* listName) {
   Node* current = head;
   int pos = 1;
 
-  while (current->next != NULL) {
+  while (current != NULL) {
     current = current->next;
     fprintf(fp, "%d. %s: \t$%.2f\n", pos++, current->name, current->price);
   }
@@ -168,8 +174,8 @@ int main(int argc, char* argv[]) {
   if (!strcmp(chooseHelp, "y")) help("continue");
 
   // Set initial head node
-  Node* list = malloc(sizeof(Node));
-  list->next = NULL;
+  Node* head = malloc(sizeof(Node));
+  head->next = NULL;
 
   // Enter event loop
   while (1) {
@@ -184,43 +190,58 @@ int main(int argc, char* argv[]) {
 
       fprintf(stdout, "\n Item name: "); scanf(" %255[^\n]s", name);
       fprintf(stdout, " Item price: "); scanf("%f", &price);
-      fprintf(stdout, " Item position: "); scanf("%d", &position);
+
+      if (show(head)) {
+        fprintf(stdout, "\n Where would you like to insert this item?\n");
+        scanf("%d", &position);
+      }
+      else position = 1;
 
       fprintf(stdout, "\n Adding \"%s = $%.2f\" to the list at position %d...\n", name, price, position);
-      add(list, name, price, position);
+      add(head, name, price, position);
       continue;
     }
 
     if (!strcmp(cmd, "delete")) {
-      show(list);
-      fprintf(stdout, "\n Item position: ");
+      if (show(head)) {
+        int position;
 
-      int position;
-      scanf("%d", &position);
+        fprintf(stdout, "\n Which item would you like to delete?\n ");
+        scanf("%d", &position);
 
-      delete(list, position);
+        delete(head, position);
+        continue;
+      }
+
+      fprintf(stdout, "\n List is currently empty...");
       continue;
     }
 
     if (!strcmp(cmd, "show")) {
-      show(list);
+      if (!show(head)) fprintf(stdout, "\n List is currently empty...");
       continue;
     }
 
     if (!strcmp(cmd, "save")) {
-      char loc[256]; char listName[256];
+      if (show(head)) {
+        char loc[256]; char listName[256];
 
-      fprintf(stdout, "\n Enter a name for this list.\n ");
-      scanf(" %255[^\n]s", &listName);
+        fprintf(stdout, "\n Enter a name for this list.\n ");
+        scanf(" %255[^\n]s", &listName);
 
-      fprintf(stdout, "\n Enter a file path/name.\n ");
-      scanf("%s", &loc);
+        fprintf(stdout, "\n Enter a file path/name.\n ");
+        scanf("%s", &loc);
 
-      save(list, loc, listName);
+        save(head, loc, listName);
+      }
       continue;
     }
 
-    if (!strcmp(cmd, "help")) help("continue");
+    if (!strcmp(cmd, "help")) {
+      help("continue");
+      continue;
+    }
+
     if (!strcmp(cmd, "exit")) break;
 
     fprintf(stdout, "\n Invalid command.\n");
