@@ -30,7 +30,7 @@
 
 // Lengths
 #define ALPHA_LEN 26
-#define PHONE_LEN 10
+#define PHONE_LEN 14
 #define PATH_LEN 256
 
 
@@ -73,11 +73,12 @@ typedef struct Node {
 } Node;
 
 // Create new Node
-Node* createNode(char letter, bool end, Node* children[]) {
+Node* createNode(char letter, bool end, char* phone, Node* children[]) {
   Node* newNode = malloc(sizeof(Node));
-  strcpy(newNode->name, name);
-  newNode->price = price;
-  newNode->next = next;
+  newNode->letter = letter;
+  newNode->end = end;
+  strcpy(newNode->phone, phone;);
+  newNode->children = children;
   return newNode;
 }
 

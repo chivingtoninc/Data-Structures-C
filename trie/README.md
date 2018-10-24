@@ -67,13 +67,7 @@ Assuming your C compiler is GCC and you're on Windows:
 ```
 
 ## Usage
-Only real use is for learning about Linked Lists. You can copy into a bigger project, but this should not be considered production-ready in any way. Simply follow the steps in **Testing** to use.
-
-Note that this implementation is a slight deviation from most implementations you might see in that there is no specific "append" or "prepend" method. Instead of having multiple methods for insertion, there is only one. You are shown the list as it currently is before insertion and can choose where to insert. This is cleaner to me than having mostly-redundant insertion methods. Likewise, there are no redundant deletion methods.
-
-The characteristics of a linked list do not specify explicit methods for insertion/deletion, only how insertion/deletion is accomplished. A trie must use it's "next" pointer to traverse the list for insertion/deletion, which this implementation does.
-
-Also note that the "save" method is not a standard method of a linked list. It is only here as an added feature.
+Only real use is for learning about Tries but it is implemented as a phonebook. Instead of simply storing words, you will be able to store names (key) and a 10-digit number (value) associated with that name. Run with option "--help" or type "help" once running for options.
 <br/><br/><br/>
 
 
