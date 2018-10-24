@@ -67,17 +67,17 @@ void help(char* msg) {
 // Trie Node
 typedef struct Node {
   char letter;
-  bool end;
   char phone[PHONE_LEN]
+  bool end;
   struct Node* children[ALPHA_LEN];
 } Node;
 
 // Create new Node
-Node* createNode(char letter, bool end, char* phone, Node* children[]) {
+Node* createNode(char letter, char* phone, bool end, Node* children[]) {
   Node* newNode = malloc(sizeof(Node));
   newNode->letter = letter;
-  newNode->end = end;
   strcpy(newNode->phone, phone;);
+  newNode->end = end;
   newNode->children = children;
   return newNode;
 }
@@ -95,10 +95,10 @@ typedef struct Trie {
 } Trie;
 
 // Create new List
-List* createList(void) {
-  List* newList = malloc(sizeof(List));
-  newList->head->next = NULL;
-  return newList;
+Trie* createTrie(void) {
+  Trie* newTrie = malloc(sizeof(Trie));
+  newTrie->head->next = NULL;
+  return newTrie;
 }
 
 // Destroy List
