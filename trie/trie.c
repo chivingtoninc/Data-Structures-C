@@ -92,6 +92,7 @@ void destroyNode(Node* node) {
 // Trie
 typedef struct Trie {
   Node* root;
+  char alphabet[ALPHA_LEN];
 } Trie;
 
 // Create new Trie
@@ -106,32 +107,21 @@ void destroyTrie(Trie* trie) {
   if (trie) free(trie);
 }
 
+// Map letter to index
+int map(char c) {
+  char alpha[26];
+
+}
+
 // Add contact to trie
-void add(Node* head, char* name, int* phone) {
-  Node* newNode = malloc(sizeof(Node));
-  strcpy(newNode->name, name);
-  newNode->price = price;
+void add(Trie* trie, char* name, int* phone) {
+  Node* current = trie->root;
 
-  if (head == NULL) {
-    head = newNode;
-    return;
+  while (current->children) {
+    current = current->children[i];
   }
 
-  Node* current = head;
 
-  for (int i = 1; i < pos; i++) {
-    if (current->next == NULL) break;
-    current = current->next;
-  }
-
-  if (current->next == NULL) {
-    newNode->next = NULL;
-    current->next = newNode;
-  }
-  else {
-    newNode->next = current->next;
-    current->next = newNode;
-  }
 }
 
 // Delete item from trie at specified position.
