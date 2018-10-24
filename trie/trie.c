@@ -107,7 +107,7 @@ void destroyTrie(Trie* trie) {
 }
 
 // Add contact to trie
-void add(Node* head, char* name, float price, int pos) {
+void add(Node* head, char* name, int* phone) {
   Node* newNode = malloc(sizeof(Node));
   strcpy(newNode->name, name);
   newNode->price = price;
