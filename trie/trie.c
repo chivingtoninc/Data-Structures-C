@@ -88,25 +88,25 @@ void destroyNode(Node* node) {
 }
 
 
-/* -------------------------------- List Structure --------------------------------- */
+/* -------------------------------- Trie Structure --------------------------------- */
 // Trie
 typedef struct Trie {
   Node* root;
 } Trie;
 
-// Create new List
+// Create new Trie
 Trie* createTrie(void) {
   Trie* newTrie = malloc(sizeof(Trie));
   newTrie->head->next = NULL;
   return newTrie;
 }
 
-// Destroy List
-void destroyList(List* list) {
-  if (list) free(list);
+// Destroy Trie
+void destroyTrie(Trie* trie) {
+  if (trie) free(trie);
 }
 
-// Add item to list at specified position.
+// Add contact to trie
 void add(Node* head, char* name, float price, int pos) {
   Node* newNode = malloc(sizeof(Node));
   strcpy(newNode->name, name);
@@ -134,7 +134,7 @@ void add(Node* head, char* name, float price, int pos) {
   }
 }
 
-// Delete item from list at specified position.
+// Delete item from trie at specified position.
 void delete(Node* head, int pos) {
   Node* current = head;
   int i;
@@ -145,7 +145,7 @@ void delete(Node* head, int pos) {
   }
 
   if (i < pos) {
-    fprintf(stdout, "\n Not that many items in the list.");
+    fprintf(stdout, "\n Not that many items in the trie.");
     return;
   }
 
@@ -153,14 +153,14 @@ void delete(Node* head, int pos) {
   else current->next = current->next->next;
 }
 
-// Print list
+// Print trie
 int show(Node* head) {
   if (head->next == NULL) return 0;
 
   Node* current = head;
   int i = 1;
 
-  fprintf(stdout, "\n      Editing List\n ----------------------\n");
+  fprintf(stdout, "\n      Editing Trie\n ----------------------\n");
   while (current->next != NULL) {
     current = current->next;
     fprintf(stdout, "  %d. %s: \t$%.2f\n", i++, current->name, current->price);
@@ -169,8 +169,8 @@ int show(Node* head) {
   return 1;
 }
 
-// Save list
-void save(Node* head, char* loc, char* listName) {
+// Save trie
+void save(Node* head, char* loc, char* trieName) {
   FILE* fp = fopen(loc, "w");
 
   if (fp == NULL) {
@@ -179,9 +179,9 @@ void save(Node* head, char* loc, char* listName) {
   }
 
   char underline[NAME_MX]; int i;
-  for (i = 0; i < strlen(listName); i++) underline[i] = '-';
+  for (i = 0; i < strlen(trieName); i++) underline[i] = '-';
 
-  fprintf(fp, "%s\n%s\n", listName, underline);
+  fprintf(fp, "%s\n%s\n", trieName, underline);
 
   Node* current = head;
   int pos = 1;
@@ -192,7 +192,7 @@ void save(Node* head, char* loc, char* listName) {
   }
 
   fclose(fp);
-  fprintf(stdout, "\n List saved at: %s\n", loc);
+  fprintf(stdout, "\n Trie saved at: %s\n", loc);
 }
 
 
@@ -206,15 +206,15 @@ int main(int argc, char* argv[]) {
 
   // Clear screen & greet user
   clr();
-  fprintf(stdout, "\n Welcome to the Singly-Linked Grocery List!\n");
+  fprintf(stdout, "\n Welcome to the Singly-Linked Grocery Trie!\n");
   fprintf(stdout, "\n Would you like to see instructions?\n (y/n): ");
 
   char chooseHelp[4];
   scanf("%s", &chooseHelp);
   if (!strcmp(chooseHelp, "y")) help("continue");
 
-  // Create List
-  List* list = createList();
+  // Create Trie
+  Trie* trie = createTrie();
 
   // Enter event loop
   while (1) {
@@ -230,48 +230,48 @@ int main(int argc, char* argv[]) {
       fprintf(stdout, "\n Item name: "); scanf(" %[^\n]s", name);
       fprintf(stdout, " Item price: "); scanf("%f", &price);
 
-      if (show(list->head)) {
+      if (show(trie->head)) {
         fprintf(stdout, "\n Where would you like to insert this item?\n ");
         scanf("%d", &position);
       }
       else position = 1;
 
-      fprintf(stdout, "\n Adding \"%s = $%.2f\" to the list at position %d...\n", name, price, position);
-      add(list->head, name, price, position);
+      fprintf(stdout, "\n Adding \"%s = $%.2f\" to the trie at position %d...\n", name, price, position);
+      add(trie->head, name, price, position);
       continue;
     }
 
     if (!strcmp(cmd, "delete")) {
-      if (show(list->head)) {
+      if (show(trie->head)) {
         int position;
 
         fprintf(stdout, "\n Which item would you like to delete?\n ");
         scanf("%d", &position);
 
-        delete(list->head, position);
+        delete(trie->head, position);
         continue;
       }
 
-      fprintf(stdout, "\n List is currently empty...");
+      fprintf(stdout, "\n Trie is currently empty...");
       continue;
     }
 
     if (!strcmp(cmd, "show")) {
-      if (!show(list->head)) fprintf(stdout, "\n List is currently empty...");
+      if (!show(trie->head)) fprintf(stdout, "\n Trie is currently empty...");
       continue;
     }
 
     if (!strcmp(cmd, "save")) {
-      if (show(list->head)) {
-        char loc[PATH_LEN]; char listName[NAME_MX];
+      if (show(trie->head)) {
+        char loc[PATH_LEN]; char trieName[NAME_MX];
 
-        fprintf(stdout, "\n Enter a name for this list.\n ");
-        scanf(" %[^\n]s", &listName);
+        fprintf(stdout, "\n Enter a name for this trie.\n ");
+        scanf(" %[^\n]s", &trieName);
 
         fprintf(stdout, "\n Enter a file path/name.\n ");
         scanf("%s", &loc);
 
-        save(list->head, loc, listName);
+        save(trie->head, loc, trieName);
       }
       continue;
     }
