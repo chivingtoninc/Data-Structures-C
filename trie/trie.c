@@ -97,7 +97,7 @@ typedef struct Trie {
 // Create new Trie
 Trie* createTrie(void) {
   Trie* newTrie = malloc(sizeof(Trie));
-  newTrie->head->next = NULL;
+  newTrie->root = NULL;
   return newTrie;
 }
 
