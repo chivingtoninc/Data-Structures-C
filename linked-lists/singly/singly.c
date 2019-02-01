@@ -41,7 +41,7 @@ void clr(void) {
 // Pause program
 void pause(char* msg) {
   fprintf(stdout, (strlen(msg) > 0) ? "\n %s\n", msg : "\n Press enter to continue...\n");
-  while (getchar() != '\n');
+  while (getchar() != "\n");
 }
 
 // Display help menu
