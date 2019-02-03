@@ -7,10 +7,39 @@
 
 
 /* ------------------------------------ Includes ----------------------------------- */
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
+#include <stdio.h>            // interface with user
+#include <stdlib.h>           // helper functions
+#include <string.h>           // work with strings
 
+// #include "time.h"
+// fprintf(stdout, "%lun", (unsigned long)time(NULL));
+
+/* ------------------------------------ Helpers ------------------------------------ */
+// print bar under string
+char* bar(char* str) {
+  char * bar;
+
+  for (int i = 0; i < sizeof str; i++)
+    bar += "-";
+
+  return bar;
+}
+
+// clear screen
+void clr(void) {
+  system(SYS == "WIN" ? "cls" : "clear");
+}
+
+// pause program
+void pause(char* msg) {
+  fprintf(stdout, (strlen(msg) > 0) ? "\n %s\n", msg : "\n Press enter to continue...\n");
+  while (getchar() != "\n");
+}
+
+// greet user
+void greet() {
+  printf("\n C Stack\n %s", bar("C Stack"));
+}
 
 /* ----------------------------------- Structures ---------------------------------- */
 typedef struct StackNode {
