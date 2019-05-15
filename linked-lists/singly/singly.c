@@ -1,6 +1,6 @@
 /* --------------------------------------------------------------------------------- *
  * Name: Johnathan Chivington                                                        *
- * Project: GitHub Web App                                                           *
+ * Project: Data-Structures-C                                                        *
  * Description: Singly-linked grocery list implementation in C.                      *
  * --------------------------------------------------------------------------------- */
 
