@@ -75,30 +75,47 @@ void clr() {
 
 // pause program
 void pause(char* msg) {
-  fprintf(stdout, (strlen(msg) > 0) ? "\n %s\n", msg : "\n %s", "Press enter to continue...");
-  while (getchar() != '\n');
+  printf("\n Type \"c\" to continue: ");
+  char cont[4];
+  scanf("%s", cont);
 };
 
-// greet user
-void greet() {
-  char* msg = "Stack Data Structure in C";
-  printf("\n %s\n %s\n", msg, underline(msg));
+// quit program
+void quit(char* msg, int cl) {
+  if (cl) clr();
+  char* title = "Stack Data Structure in C";
+  if (strlen(msg) > 0) printf("\n %s\n %s\n Invalid option: %s\n\n Quitting...\n\n", title, underline(title), msg);
+  exit(0);
 };
 
 // display a help menu (and optionally an error message)
 void help(char* msg) {
-  int suppress = (!strcmp(msg, "exit") || !strcmp(msg, "continue")) ? 1 : 0;
-  if (strlen(msg) > 0 && !suppress) printf("\n Error:\n %s\n%s\n", underline("Error:"), msg);
+  if (strlen(msg) > 0 && strcmp(msg, "exit"))
+    printf("\n Error:\n %s\n%s\n", underline("Error:"), wrap(msg, 70, 1));
 
   printf("\n Options:\n %s\n\
-  - add: \tadd item to list at a specified position, by number.\n\
-  - remove: \tremove item from list at a specified position, by number.\n\
-  - show: \tshow list.\n\
-  - help: \tshow this menu.\n\
-  - exit: \texit the program.\n\
-  ", underline("Options:"));
+    - isFull: \tcheck if stack is full.\n\
+    - isEmpty: \tcheck if stack is empty.\n\
+    - peek: \tshow top item on stack.\n\
+    - push: \tpush item onto stack.\n\
+    - pop: \tshow return top item from stack.\n\
+    - help: \tshow this menu.\n\
+    - exit: \texit the program.\n\n",
+    underline("Options:")
+  );
+  if (!strcmp(msg, "exit")) quit("", 0);
+  else pause("");
+};
 
-  if (!strcmp(msg, "exit")) exit(0);
+// greet user
+void greet() {
+  char* title = "Stack Data Structure in C";
+  printf("\n %s\n %s\n Enter \"exit\" anytime to quit...\n\n", title, underline(title));
+  printf(" Would you like to see instructions? (y/n): ");
+  char chooseHelp[4];
+  scanf("%s", chooseHelp);
+  if (!strcmp(chooseHelp, "y") || !strcmp(chooseHelp, "yes")) help("");
+  if (!strcmp(chooseHelp, "exit")) quit("", 0);
 };
 
 
@@ -155,20 +172,43 @@ int peek(Stack* stack) {
 
 
 /* ------------------------------------- Main -------------------------------------- *
- *        REPL main/driver program for testing the data structure's methods.         *
+ *        REPL main/driver program for testing the data structure & methods.         *
  * --------------------------------------------------------------------------------- */
 int main(int argc, char const *argv[]) {
   // check args
   if (argc > 1) {
+    clr();
     if (!strcmp(argv[1], "--help") || !strcmp(argv[1], "-h")) help("exit");
+    else quit((char*)("Invalid option: %s", argv[1]), 1);
   };
 
-  // clear screen & greet user
-  clr();
-  greet();
-  pause("");
+  // create the stack
+  Stack* myStack = create(10);
 
-  // begin event loop
+  // begin runtime loop
+  int done = 0;
+  while (!done) {
+    // clear screen & greet user
+    clr();
+    greet();
+
+    // accept input
+    printf("\n What would you like to do?\n >>");
+    char choice[4];
+    scanf("%s", choice);
+
+    // perform action
+
+    // print result
+    if (!strcmp(choice, "exit")) quit("", 0);
+    if (!strcmp(choice, "isFull")) printf("\n isFull\n");
+    if (!strcmp(choice, "isEmpty")) printf("\n isEmpty\n");
+    if (!strcmp(choice, "push")) printf("\n push\n");
+    if (!strcmp(choice, "pop")) printf("\n pop\n");
+    if (!strcmp(choice, "peek")) printf("\n peek\n");
+
+    pause("");
+  };
 
   // exit
   printf("\n");

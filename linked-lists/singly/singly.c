@@ -21,8 +21,8 @@
 #endif
 
 // Max length for List / Node names
-#define NAME_MX 64
-#define PATH_MX 256
+#define NAME_MAX 64
+#define PATH_MAX 256
 
 
 /* ------------------------------------ Utils -------------------------------------- */
@@ -57,7 +57,7 @@ void help(char* msg) {
 /* -------------------------------- Node Structure --------------------------------- */
 // List Node
 typedef struct Node {
-  char name[NAME_MX];
+  char name[NAME_MAX];
   float price;
   struct Node* next;
 } Node;
@@ -167,7 +167,7 @@ void save(Node* head, char* loc, char* listName) {
     return;
   }
 
-  char underline[NAME_MX]; int i;
+  char underline[NAME_MAX]; int i;
   for (i = 0; i < strlen(listName); i++) underline[i] = '-';
 
   fprintf(fp, "%s\n%s\n", listName, underline);
@@ -214,7 +214,7 @@ int main(int argc, char* argv[]) {
     scanf("%s", &cmd);
 
     if (!strcmp(cmd, "add")) {
-      char name[NAME_MX]; float price; int position;
+      char name[NAME_MAX]; float price; int position;
 
       fprintf(stdout, "\n Item name: "); scanf(" %[^\n]s", name);
       fprintf(stdout, " Item price: "); scanf("%f", &price);
@@ -252,7 +252,7 @@ int main(int argc, char* argv[]) {
 
     if (!strcmp(cmd, "save")) {
       if (show(list->head)) {
-        char loc[PATH_MX]; char listName[NAME_MX];
+        char loc[PATH_MAX]; char listName[NAME_MAX];
 
         fprintf(stdout, "\n Enter a name for this list.\n ");
         scanf(" %[^\n]s", &listName);
