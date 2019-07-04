@@ -13,8 +13,6 @@
 #include <string.h>
 #include <ctype.h>
 #include <limits.h>
-// #include "time.h"
-// fprintf(stdout, "%lun", (unsigned long)time(NULL));
 
 
 /* ------------------------------------ Globals ------------------------------------ *
@@ -94,9 +92,8 @@ void help(char* msg) {
     printf("\n Error:\n %s\n%s\n", underline("Error:"), wrap(msg, 70, 1));
 
   printf("\n Options:\n %s\n\
-    - isFull: \tcheck if stack is full.\n\
-    - isEmpty: \tcheck if stack is empty.\n\
-    - peek: \tshow top item on stack.\n\
+    - full: \tcheck if stack is full.\n\
+    - empty: \tcheck if stack is empty.\n\
     - push: \tpush item onto stack.\n\
     - pop: \tshow return top item from stack.\n\
     - help: \tshow this menu.\n\
@@ -122,53 +119,53 @@ void greet() {
 /* ----------------------------------- Structures ---------------------------------- *
  *            The data structure and it's dependent structures (if any).             *
  * --------------------------------------------------------------------------------- */
- // stack structure
-typedef struct Stack {
-  int top;
-  unsigned capacity;
-  int* array;
-} Stack;
+// stack structure
+typedef struct StackNode {
+  int data;
+  struct StackNode* next;
+} StackNode;
 
 
 /* ------------------------------------ Methods ------------------------------------ *
  *                 Functions used to manipulate the data structure.                  *
  * --------------------------------------------------------------------------------- */
-// create stack with given capacity
-Stack* create(unsigned capacity) {
-  Stack* stack = (Stack*)malloc(sizeof(Stack));
-  stack->capacity = capacity;
-  stack->top = -1;
-  stack->array = (int*)malloc(capacity * sizeof(int));
-  return stack;
-};
-
-// check if stack is full
-int isFull(Stack* stack) {
-  return stack->top == stack->capacity - 1;
+// create stack node with given data
+StackNode* newNode(int data) {
+   StackNode* stackNode = (StackNode*)malloc(sizeof(StackNode));
+   stackNode->data = data;
+   stackNode->next = NULL;
+   return stackNode;
 };
 
 // check if stack is empty
-int isEmpty(Stack* stack) {
-  return stack->top == -1;
+int empty(StackNode* root) {
+   return !root;
 };
 
 // push new node onto stack
-void push(Stack* stack, int item) {
-  if (isFull(stack)) return;
-  stack->array[++stack->top] = item;
+void push(StackNode** root, int data) {
+   StackNode* stackNode = newNode(data);
+   stackNode->next = *root;
+   *root = stackNode;
 };
 
 // remove top node of stack
-int pop(Stack* stack) {
-  if (isEmpty(stack)) return INT_MIN;
-  return stack->array[stack->top--];
+int pop(StackNode** root) {
+   if (empty(*root)) return INT_MIN;
+   StackNode* temp = *root;
+   *root = (*root)->next;
+   int popped = temp->data;
+   free(temp);
+
+   return popped;
 };
 
 // see current top node of stack
-int peek(Stack* stack) {
-  if (isEmpty(stack)) return INT_MIN;
-  return stack->array[stack->top];
+int peek(StackNode* root) {
+   if (empty(root)) return INT_MIN;
+   return root->data;
 };
+
 
 
 /* ------------------------------------- Main -------------------------------------- *
@@ -182,10 +179,10 @@ int main(int argc, char const *argv[]) {
     else quit((char*)("Invalid option: %s", argv[1]), 1);
   };
 
-  // create the stack
-  Stack* myStack = create(10);
+  // create stack
+  Stack* myStack = newNode(10);
 
-  // begin runtime loop
+  // runtime loop
   int done = 0;
   while (!done) {
     // clear screen & greet user
@@ -194,19 +191,24 @@ int main(int argc, char const *argv[]) {
 
     // accept input
     printf("\n What would you like to do?\n >> ");
-    char choice[4];
+    char choice[8];
     scanf("%s", choice);
 
     // perform action
-
-    // print result
     if (!strcmp(choice, "exit")) quit("", 0);
-    if (!strcmp(choice, "isFull")) printf("\n isFull\n");
-    if (!strcmp(choice, "isEmpty")) printf("\n isEmpty\n");
-    if (!strcmp(choice, "push")) printf("\n push\n");
-    if (!strcmp(choice, "pop")) printf("\n pop\n");
-    if (!strcmp(choice, "peek")) printf("\n peek\n");
+    else if (!strcmp(choice, "full")) printf("\n Status: %s", full(myStack) ? "full" : "not full");
+    else if (!strcmp(choice, "empty")) printf("\n Status: %s", empty(myStack) ? "empty" : "not empty");
+    else if (!strcmp(choice, "push")) {
+      printf("\n What number would you like push onto the stack?\n >> ");
+      int choice;
+      scanf("%i", &choice);
+      push(myStack, choice);
+    }
+    else if (!strcmp(choice, "pop")) pop(myStack);
+    else printf("\n Invalid option: %s\n", choice);
 
+    // print result & pause
+    printf("\n Top of stack: %d\n", peek(myStack));
     pause("");
   };
 

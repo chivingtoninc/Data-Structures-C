@@ -179,10 +179,10 @@ int main(int argc, char const *argv[]) {
     else quit((char*)("Invalid option: %s", argv[1]), 1);
   };
 
-  // create the stack
+  // create stack
   Stack* myStack = create(10);
 
-  // begin runtime loop
+  // runtime loop
   int done = 0;
   while (!done) {
     // clear screen & greet user
@@ -207,9 +207,8 @@ int main(int argc, char const *argv[]) {
     else if (!strcmp(choice, "pop")) pop(myStack);
     else printf("\n Invalid option: %s\n", choice);
 
-    // print result
+    // print result & pause
     printf("\n Top of stack: %d\n", peek(myStack));
-
     pause("");
   };
 
