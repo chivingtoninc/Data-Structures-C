@@ -64,9 +64,8 @@ void pause(char* msg) {
 
 // quit program
 void quit(char* msg, int cl) {
-  if (cl) clr();
-  char* title = "Stack Data Structure in C";
-  if (strlen(msg) > 0) printf("\n %s\n %s\n Invalid option: %s\n\n Quitting...\n\n", title, underline(title), msg);
+  if (cl == 1) clr();
+  if (strlen(msg) > 0) printf("\n Invalid option: %s\n\n Quitting...\n\n", msg);
   exit(0);
 };
 
@@ -89,9 +88,8 @@ void help(char* msg) {
 };
 
 // greet user
-void greet() {
+void greet(char* title) {
   clr();
-  char* title = "Stack Data Structure in C";
   printf("\n %s\n %s\n Enter \"exit\" anytime to quit...\n\n", title, underline(title));
 };
 
@@ -117,5 +115,5 @@ void instructions() {
   char chooseHelp[4];
   scanf("%s", chooseHelp);
   if (!strcmp(chooseHelp, "y") || !strcmp(chooseHelp, "yes")) help("pause");
-  if (!strcmp(chooseHelp, "exit")) quit("", 0);
+  if (!strcmp(chooseHelp, "exit")) quit("", 1);
 };

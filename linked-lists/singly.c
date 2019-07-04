@@ -69,20 +69,23 @@ void print(Node* list) {
  *          Main/driver program for testing the data structure & methods.            *
  * --------------------------------------------------------------------------------- */
 int main(int argc, char const *argv[]) {
+  // program title
+  char* title = "Singly-Linked List (C)";
+
   // check args
   if (argc > 1) checkArgs(argv[1]);
 
   // greet user & prompt instructions
-  greet();
+  greet(title);
   instructions();
 
   // list pointer / placeholder
-  Node* list;
+  Node* list = NULL;
 
   // repl
   while (1) {
     // refresh screen & greet user
-    greet();
+    greet(title);
 
     // prompt for action
     printf(" What would you like to do?\n >> ");
@@ -92,7 +95,7 @@ int main(int argc, char const *argv[]) {
     // perform action
     if (!strcmp(choice, "create")) list = createList(getNum());
     else if (!strcmp(choice, "push")) push(list, getNum());
-    else if (!strcmp(choice, "pop")) pop(list);
+    else if (!strcmp(choice, "pop")) printf("\n Removed: %d\n", pop(list));
     else if (!strcmp(choice, "print")) list ? print(list): printf("\n No list created.\n");
     else if (!strcmp(choice, "help")) help("");
     else if (!strcmp(choice, "exit")) quit("", 0);
