@@ -1,7 +1,5 @@
 # Data-Structures-C
-Various data structures, implemented in C. These data structures will each be implemented as some useful application. As such they will be slightly different from most implementations you might see. They will also have a handful of helper functions that aren't actually a part of the definition of the data structure itself, but will be used for the functionality of whatever app we're building around the data structure.
-
-My goal is to give you a use for these data structures, rather than some abstract concept that does nothing useful. In all cases, functions specific to the structure will be grouped with the structure and helper functions will be grouped separately. It will be easy to see that a function like "clearScreen()" for example is not actually part of the definition of the data structure.
+Various data structures, implemented in C.
 
 ![Build Status](https://img.shields.io/badge/build-Stable-green.svg)
 ![License](https://img.shields.io/badge/license-DO_WHATEVER_YOU_WANT-green.svg)
